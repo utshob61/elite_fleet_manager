@@ -5,7 +5,8 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../providers/car_provider.dart';
-import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../auth/presentation/providers/auth_provider.dart';
+import '../data/models/car_model.dart';
 import 'car_details_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,7 +23,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => context.read<CarProvider>().fetchCars());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<CarProvider>().fetchCars();
+      }
+    });
   }
 
   @override
@@ -43,13 +48,13 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'CURATED COLLECTION',
                     style: TextStyle(
                       fontSize: 10,
                       letterSpacing: 4,
                       fontWeight: FontWeight.w900,
-                      color: const Color(0xFFD4AF37),
+                      color: Color(0xFFD4AF37),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -283,7 +288,7 @@ class SearchField extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: theme.brightness == Brightness.light ? [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withAlpha(8),
             blurRadius: 30,
             offset: const Offset(0, 15),
           ),
@@ -304,7 +309,7 @@ class SearchField extends StatelessWidget {
 }
 
 class CarCard extends StatelessWidget {
-  final dynamic car;
+  final Car car;
   const CarCard({super.key, required this.car});
 
   @override
@@ -318,9 +323,10 @@ class CarCard extends StatelessWidget {
           children: [
             Positioned.fill(
               child: CachedNetworkImage(
-                imageUrl: car.images[0],
+                imageUrl: car.images.isNotEmpty ? car.images[0] : '',
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(color: Colors.grey[100]),
+                errorWidget: (context, url, error) => Container(color: Colors.grey[300], child: const Icon(Icons.directions_car)),
               ),
             ),
             Positioned.fill(
@@ -331,8 +337,8 @@ class CarCard extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      Colors.black.withOpacity(0.2),
-                      Colors.black.withOpacity(0.95),
+                      Colors.black.withAlpha(50),
+                      Colors.black.withAlpha(240),
                     ],
                   ),
                 ),
@@ -347,7 +353,7 @@ class CarCard extends StatelessWidget {
                   filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    color: Colors.white.withOpacity(0.1),
+                    color: Colors.white.withAlpha(25),
                     child: Row(
                       children: [
                         const Icon(Icons.star_rounded, color: Color(0xFFD4AF37), size: 18),
@@ -418,7 +424,7 @@ class CarCard extends StatelessWidget {
 }
 
 class CarListTile extends StatelessWidget {
-  final dynamic car;
+  final Car car;
   const CarListTile({super.key, required this.car});
 
   @override
@@ -437,7 +443,7 @@ class CarListTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(32),
           boxShadow: theme.brightness == Brightness.light ? [
             BoxShadow(
-              color: Colors.black.withOpacity(0.02),
+              color: Colors.black.withAlpha(5),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -448,10 +454,11 @@ class CarListTile extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(24),
               child: CachedNetworkImage(
-                imageUrl: car.images[0],
+                imageUrl: car.images.isNotEmpty ? car.images[0] : '',
                 width: 120,
                 height: 90,
                 fit: BoxFit.cover,
+                errorWidget: (context, url, error) => Container(color: Colors.grey[200], child: const Icon(Icons.directions_car)),
               ),
             ),
             const SizedBox(width: 20),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
-import '../../../admin/presentation/pages/admin_dashboard.dart';
-import '../../../../core/theme/theme_provider.dart';
+import '../../admin/presentation/pages/admin_dashboard.dart';
+import '../../../core/theme/theme_provider.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -11,14 +11,16 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
     final themeProvider = context.watch<ThemeProvider>();
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            _buildHeader(context, auth),
+            _buildHeader(context, auth, isDark),
             Padding(
               padding: const EdgeInsets.fromLTRB(28, 40, 28, 120),
               child: Column(
@@ -83,13 +85,13 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, AuthProvider auth) {
+  Widget _buildHeader(BuildContext context, AuthProvider auth, bool isDark) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(32, 100, 32, 60),
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF1C1C1E) : Colors.black,
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(60),
           bottomRight: Radius.circular(60),
         ),
@@ -143,7 +145,7 @@ class ProfilePage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 24),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.05),
+              color: Colors.white.withAlpha(12),
               borderRadius: BorderRadius.circular(30),
             ),
             child: Row(
@@ -186,13 +188,13 @@ class _ProfileSection extends StatelessWidget {
           decoration: BoxDecoration(
             color: Theme.of(context).cardTheme.color,
             borderRadius: BorderRadius.circular(28),
-            boxShadow: [
+            boxShadow: Theme.of(context).brightness == Brightness.light ? [
               BoxShadow(
-                color: Colors.black.withOpacity(0.02),
+                color: Colors.black.withAlpha(5),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
-            ],
+            ] : null,
           ),
           child: Column(
             children: items,
@@ -218,25 +220,28 @@ class _ProfileItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
       leading: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.light ? const Color(0xFFFBFBFD) : Colors.black26,
+          color: isDark ? Colors.white.withAlpha(12) : const Color(0xFFFBFBFD),
           borderRadius: BorderRadius.circular(14),
         ),
-        child: Icon(icon, size: 20, color: Theme.of(context).brightness == Brightness.light ? Colors.black87 : Colors.white),
+        child: Icon(icon, size: 20, color: isDark ? Colors.white : Colors.black87),
       ),
       title: Text(
         title,
         style: TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w600,
-          color: Theme.of(context).brightness == Brightness.light ? Colors.black87 : Colors.white,
+          color: isDark ? Colors.white : Colors.black87,
         ),
       ),
-      trailing: trailing ?? const Icon(Icons.arrow_forward_ios_rounded, size: 14, color: Colors.black12),
+      trailing: trailing ?? Icon(Icons.arrow_forward_ios_rounded, size: 14, color: isDark ? Colors.white24 : Colors.black12),
       onTap: onTap,
     );
   }

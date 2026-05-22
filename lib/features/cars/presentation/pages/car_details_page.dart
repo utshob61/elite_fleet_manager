@@ -2,10 +2,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../data/models/car_model.dart';
-import '../../../bookings/presentation/providers/booking_provider.dart';
-import '../../../auth/presentation/providers/auth_provider.dart';
-import '../../../bookings/data/models/booking_model.dart';
+import '../data/models/car_model.dart';
+import '../../bookings/presentation/providers/booking_provider.dart';
+import '../../auth/presentation/providers/auth_provider.dart';
+import '../../bookings/data/models/booking_model.dart';
 
 class CarDetailsPage extends StatelessWidget {
   final Car car;
@@ -25,7 +25,7 @@ class CarDetailsPage extends StatelessWidget {
           child: CircleAvatar(
             backgroundColor: isDark ? Colors.white10 : Colors.black26,
             child: IconButton(
-              icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -84,15 +84,16 @@ class CarDetailsPage extends StatelessWidget {
   Widget _buildHeroImage(bool isDark) {
     return Hero(
       tag: car.id,
-      child: Container(
+      child: SizedBox(
         height: 550,
         width: double.infinity,
         child: Stack(
           children: [
             Positioned.fill(
               child: CachedNetworkImage(
-                imageUrl: car.images[0],
+                imageUrl: car.images.isNotEmpty ? car.images[0] : '',
                 fit: BoxFit.cover,
+                errorWidget: (context, url, error) => Container(color: Colors.grey[300]),
               ),
             ),
             Positioned.fill(
@@ -103,9 +104,9 @@ class CarDetailsPage extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     stops: const [0.0, 0.4, 0.8, 1.0],
                     colors: [
-                      Colors.black.withOpacity(0.5),
+                      Colors.black.withAlpha(128),
                       Colors.transparent,
-                      isDark ? Colors.black.withOpacity(0.9) : Colors.white.withOpacity(0.9),
+                      isDark ? Colors.black.withAlpha(230) : Colors.white.withAlpha(230),
                       isDark ? Colors.black : Colors.white,
                     ],
                   ),
@@ -185,7 +186,7 @@ class CarDetailsPage extends StatelessWidget {
   Widget _buildSpecGrid(bool isDark) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: car.specs.entries.map((e) {
+      children: car.specs.entries.take(3).map((e) {
         return _SpecCard(
           icon: _getIconForSpec(e.key),
           label: e.value.toString(),
@@ -213,7 +214,7 @@ class CarDetailsPage extends StatelessWidget {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(50)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withAlpha(25),
             blurRadius: 40,
             offset: const Offset(0, -10),
           ),
@@ -299,12 +300,12 @@ class _SpecCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 110,
-      padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 12),
+      width: 100,
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 8),
       decoration: BoxDecoration(
-        color: isDark ? Colors.white.withOpacity(0.05) : const Color(0xFFF9F9F9),
+        color: isDark ? Colors.white.withAlpha(12) : const Color(0xFFF9F9F9),
         borderRadius: BorderRadius.circular(32),
-        border: Border.all(color: isDark ? Colors.white10 : Colors.black.withOpacity(0.04)),
+        border: Border.all(color: isDark ? Colors.white10 : Colors.black.withAlpha(10)),
       ),
       child: Column(
         children: [
@@ -313,7 +314,7 @@ class _SpecCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: isDark ? Colors.black26 : Colors.white,
               shape: BoxShape.circle,
-              boxShadow: isDark ? null : [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 15)],
+              boxShadow: isDark ? null : [BoxShadow(color: Colors.black.withAlpha(12), blurRadius: 15)],
             ),
             child: Icon(icon, size: 24, color: const Color(0xFFD4AF37)),
           ),
@@ -323,7 +324,7 @@ class _SpecCard extends StatelessWidget {
             textAlign: TextAlign.center, 
             style: TextStyle(
               fontWeight: FontWeight.w900, 
-              fontSize: 14, 
+              fontSize: 13, 
               color: isDark ? Colors.white : Colors.black87
             )
           ),
@@ -331,7 +332,7 @@ class _SpecCard extends StatelessWidget {
           Text(
             sublabel, 
             style: TextStyle(
-              fontSize: 9, 
+              fontSize: 8, 
               color: isDark ? Colors.white24 : Colors.black26, 
               fontWeight: FontWeight.w900, 
               letterSpacing: 1
@@ -520,9 +521,9 @@ class _DateSelector extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 26),
         decoration: BoxDecoration(
-          color: isDark ? Colors.white.withOpacity(0.05) : const Color(0xFFF9F9F9),
+          color: isDark ? Colors.white.withAlpha(12) : const Color(0xFFF9F9F9),
           borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: isDark ? Colors.white10 : Colors.black.withOpacity(0.04)),
+          border: Border.all(color: isDark ? Colors.white10 : Colors.black.withAlpha(10)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

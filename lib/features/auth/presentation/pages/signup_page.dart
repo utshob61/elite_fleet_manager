@@ -58,6 +58,7 @@ class _SignupPageState extends State<SignupPage> {
       appBar: AppBar(
         leading: const BackButton(color: Colors.white),
         backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: Stack(
         children: [
@@ -75,9 +76,9 @@ class _SignupPageState extends State<SignupPage> {
                   end: Alignment.bottomCenter,
                   stops: const [0.0, 0.4, 0.8, 1.0],
                   colors: [
-                    Colors.black.withOpacity(0.5),
+                    Colors.black.withAlpha(128),
                     Colors.transparent,
-                    Colors.black.withOpacity(0.8),
+                    Colors.black.withAlpha(200),
                     Colors.black,
                   ],
                 ),
