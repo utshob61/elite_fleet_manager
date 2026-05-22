@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../providers/car_provider.dart';
 import '../../auth/presentation/providers/auth_provider.dart';
 import '../data/models/car_model.dart';
@@ -322,11 +321,14 @@ class CarCard extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-              child: CachedNetworkImage(
-                imageUrl: car.images.isNotEmpty ? car.images[0] : '',
+              child: Image.network(
+                car.images.isNotEmpty ? car.images[0] : '',
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Container(color: Colors.grey[100]),
-                errorWidget: (context, url, error) => Container(color: Colors.grey[300], child: const Icon(Icons.directions_car)),
+                errorBuilder: (context, error, stackTrace) => Container(color: Colors.grey[300], child: const Icon(Icons.directions_car)),
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Container(color: Colors.grey[100]);
+                },
               ),
             ),
             Positioned.fill(
@@ -347,24 +349,21 @@ class CarCard extends StatelessWidget {
             Positioned(
               top: 28,
               right: 28,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    color: Colors.white.withAlpha(25),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.star_rounded, color: Color(0xFFD4AF37), size: 18),
-                        const SizedBox(width: 4),
-                        Text(
-                          '${car.rating}',
-                          style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.black.withAlpha(120),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.star_rounded, color: Color(0xFFD4AF37), size: 18),
+                    const SizedBox(width: 4),
+                    Text(
+                      '${car.rating}',
+                      style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
@@ -453,12 +452,12 @@ class CarListTile extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(24),
-              child: CachedNetworkImage(
-                imageUrl: car.images.isNotEmpty ? car.images[0] : '',
+              child: Image.network(
+                car.images.isNotEmpty ? car.images[0] : '',
                 width: 120,
                 height: 90,
                 fit: BoxFit.cover,
-                errorWidget: (context, url, error) => Container(color: Colors.grey[200], child: const Icon(Icons.directions_car)),
+                errorBuilder: (context, error, stackTrace) => Container(color: Colors.grey[200], child: const Icon(Icons.directions_car)),
               ),
             ),
             const SizedBox(width: 20),

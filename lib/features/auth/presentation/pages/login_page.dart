@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../providers/auth_provider.dart';
 import 'signup_page.dart';
 
@@ -54,11 +53,16 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background - Ultra Premium Aston Martin
+          // Background - Reliable standard image loading for Web
           Positioned.fill(
-            child: CachedNetworkImage(
-              imageUrl: 'https://images.unsplash.com/photo-1542362567-b055002b9134?q=80&w=2070&auto=format&fit=crop',
+            child: Image.network(
+              'https://images.unsplash.com/photo-1542362567-b055002b9134?q=80&w=2070',
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(color: Colors.black),
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Container(color: Colors.black);
+              },
             ),
           ),
           // Deep Luxury Overlay
