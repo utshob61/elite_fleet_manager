@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../providers/auth_provider.dart';
 
 class SignupPage extends StatefulWidget {
@@ -63,9 +62,14 @@ class _SignupPageState extends State<SignupPage> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: CachedNetworkImage(
-              imageUrl: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=2032&auto=format&fit=crop',
+            child: Image.network(
+              'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=1200',
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(color: Colors.black),
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Container(color: Colors.black);
+              },
             ),
           ),
           Positioned.fill(

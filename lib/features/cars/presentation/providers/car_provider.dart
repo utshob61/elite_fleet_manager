@@ -148,14 +148,17 @@ class CarProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // AI Logic: Smarter recommendations based on user persona
   List<Car> getRecommendedCars() {
     if (_preferredCategory != null && _preferredCategory != 'All') {
       final preferred = _cars.where((car) => car.category == _preferredCategory).toList();
       final others = _cars.where((car) => car.category != _preferredCategory && car.rating >= 4.9).toList();
       return [...preferred, ...others];
     }
-    // Default: Highlight the "Crown Jewels" of the fleet
-    return _cars.where((car) => car.pricePerDay > 1000).toList();
+    // Default: Highlight the highest rated cars or top tier
+    final recommended = _cars.where((car) => car.pricePerDay > 1000).toList();
+    if (recommended.isEmpty) {
+      return _cars.where((car) => car.rating >= 4.9).toList();
+    }
+    return recommended;
   }
 }

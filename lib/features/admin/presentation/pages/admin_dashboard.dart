@@ -60,7 +60,7 @@ class AdminDashboard extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: isDark ? Colors.white10 : Colors.white,
                     borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: isDark ? Colors.white10 : Colors.black.withOpacity(0.02)),
+                    border: Border.all(color: isDark ? Colors.white10 : Colors.black.withAlpha(5)),
                   ),
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -117,7 +117,7 @@ class AdminDashboard extends StatelessWidget {
       decoration: BoxDecoration(
         color: isDark ? Colors.white10 : Colors.white,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: isDark ? Colors.white10 : Colors.black.withOpacity(0.02)),
+        border: Border.all(color: isDark ? Colors.white10 : Colors.black.withAlpha(5)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

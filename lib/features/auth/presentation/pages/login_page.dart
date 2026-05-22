@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
           // Background - Reliable standard image loading for Web
           Positioned.fill(
             child: Image.network(
-              'https://images.unsplash.com/photo-1542362567-b055002b9134?q=80&w=2070',
+              'https://images.unsplash.com/photo-1542362567-b055002b9134?q=80&w=1200',
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => Container(color: Colors.black),
               loadingBuilder: (context, child, loadingProgress) {

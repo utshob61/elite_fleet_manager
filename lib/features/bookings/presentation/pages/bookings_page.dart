@@ -17,7 +17,11 @@ class _BookingsPageState extends State<BookingsPage> {
     super.initState();
     final userId = context.read<AuthProvider>().user?.uid;
     if (userId != null) {
-      Future.microtask(() => context.read<BookingProvider>().fetchUserBookings(userId));
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          context.read<BookingProvider>().fetchUserBookings(userId);
+        }
+      });
     }
   }
 
@@ -60,12 +64,12 @@ class _BookingsPageState extends State<BookingsPage> {
                         borderRadius: BorderRadius.circular(32),
                         boxShadow: isDark ? null : [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.03),
+                            color: Colors.black.withAlpha(8),
                             blurRadius: 20,
                             offset: const Offset(0, 10),
                           ),
                         ],
-                        border: Border.all(color: isDark ? Colors.white10 : Colors.black.withOpacity(0.02)),
+                        border: Border.all(color: isDark ? Colors.white10 : Colors.black.withAlpha(5)),
                       ),
                       child: Column(
                         children: [
@@ -183,7 +187,7 @@ class _BookingsPageState extends State<BookingsPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.auto_awesome_motion_rounded, size: 80, color: isDark ? Colors.white10 : Colors.black.withOpacity(0.05)),
+          Icon(Icons.auto_awesome_motion_rounded, size: 80, color: isDark ? Colors.white10 : Colors.black.withAlpha(12)),
           const SizedBox(height: 32),
           Text(
             'NO ACTIVE JOURNEYS',
@@ -232,7 +236,7 @@ class _StatusBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.black,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFD4AF37).withOpacity(0.3), width: 1),
+        border: Border.all(color: const Color(0xFFD4AF37).withAlpha(76), width: 1),
       ),
       child: Text(
         status.toUpperCase(),

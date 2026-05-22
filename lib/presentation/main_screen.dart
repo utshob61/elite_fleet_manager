@@ -51,12 +51,12 @@ class _MainScreenState extends State<MainScreen> {
         child: Container(
           height: 80,
           decoration: BoxDecoration(
-            color: isDark ? Colors.black.withOpacity(0.7) : Colors.black.withOpacity(0.85),
+            color: isDark ? Colors.black.withAlpha(180) : Colors.black.withAlpha(220),
             borderRadius: BorderRadius.circular(35),
-            border: Border.all(color: Colors.white.withOpacity(0.1), width: 0.5),
+            border: Border.all(color: Colors.white.withAlpha(25), width: 0.5),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withAlpha(80),
                 blurRadius: 30,
                 offset: const Offset(0, 10),
               ),
@@ -113,19 +113,23 @@ class _NavBarItem extends StatelessWidget {
         duration: const Duration(milliseconds: 400),
         curve: Curves.easeOutQuint,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFFD4AF37).withAlpha(30) : Colors.transparent,
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               icon,
-              color: isSelected ? const Color(0xFFD4AF37) : Colors.white.withOpacity(0.4),
+              color: isSelected ? const Color(0xFFD4AF37) : Colors.white.withAlpha(100),
               size: 26,
             ),
             const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? const Color(0xFFD4AF37) : Colors.white.withOpacity(0.4),
+                color: isSelected ? const Color(0xFFD4AF37) : Colors.white.withAlpha(100),
                 fontSize: 9,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 2,

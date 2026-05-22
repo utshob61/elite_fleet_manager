@@ -433,10 +433,9 @@ class _BookingSheetState extends State<_BookingSheet> {
 
                     try {
                       await bookingProvider.createBooking(booking);
-                      if (mounted) {
-                        Navigator.pop(context);
-                        _showEliteSuccessDialog(context, isDark);
-                      }
+                      if (!mounted) return;
+                      Navigator.pop(context);
+                      _showEliteSuccessDialog(context, isDark);
                     } catch (e) {
                       if (mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(

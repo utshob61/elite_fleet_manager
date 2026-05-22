@@ -173,7 +173,7 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.only(right: 24.0),
           child: CircleAvatar(
             radius: 20,
-            backgroundColor: theme.brightness == Brightness.light ? const Color(0xFFF0F0F0) : Colors.white10,
+            backgroundColor: theme.brightness == Brightness.light ? const Color(0xFFF0F0F0) : Colors.white.withAlpha(25),
             child: Icon(Icons.notifications_none_rounded, color: theme.brightness == Brightness.light ? Colors.black : Colors.white, size: 20),
           ),
         ),
@@ -206,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                       letterSpacing: 2,
                       color: isSelected 
                           ? (theme.brightness == Brightness.light ? Colors.black : Colors.white)
-                          : (theme.brightness == Brightness.light ? Colors.black26 : Colors.white24),
+                          : (theme.brightness == Brightness.light ? Colors.black26 : Colors.white.withAlpha(50)),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -239,10 +239,10 @@ class _HomePageState extends State<HomePage> {
             fontSize: 12,
             fontWeight: FontWeight.w900,
             letterSpacing: 3,
-            color: theme.brightness == Brightness.light ? Colors.black26 : Colors.white24,
+            color: theme.brightness == Brightness.light ? Colors.black26 : Colors.white.withAlpha(50),
           ),
         ),
-        Icon(Icons.keyboard_arrow_right_rounded, color: theme.brightness == Brightness.light ? Colors.black26 : Colors.white24, size: 20),
+        Icon(Icons.keyboard_arrow_right_rounded, color: theme.brightness == Brightness.light ? Colors.black26 : Colors.white.withAlpha(50), size: 20),
       ],
     );
   }
@@ -250,8 +250,8 @@ class _HomePageState extends State<HomePage> {
   Widget _buildShimmerList({bool vertical = false}) {
     final theme = Theme.of(context);
     return Shimmer.fromColors(
-      baseColor: theme.brightness == Brightness.light ? Colors.grey[200]! : Colors.white10,
-      highlightColor: theme.brightness == Brightness.light ? Colors.grey[50]! : Colors.white24,
+      baseColor: theme.brightness == Brightness.light ? Colors.grey[200]! : Colors.white.withAlpha(25),
+      highlightColor: theme.brightness == Brightness.light ? Colors.grey[50]! : Colors.white.withAlpha(50),
       child: ListView.builder(
         scrollDirection: vertical ? Axis.vertical : Axis.horizontal,
         shrinkWrap: vertical,
@@ -283,7 +283,7 @@ class SearchField extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
-        color: theme.brightness == Brightness.light ? Colors.white : Colors.white10,
+        color: theme.brightness == Brightness.light ? Colors.white : Colors.white.withAlpha(25),
         borderRadius: BorderRadius.circular(24),
         boxShadow: theme.brightness == Brightness.light ? [
           BoxShadow(
@@ -298,7 +298,7 @@ class SearchField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'Search collection...',
           hintStyle: TextStyle(color: Colors.grey[400], fontSize: 16, fontWeight: FontWeight.w400),
-          prefixIcon: Icon(Icons.search_rounded, size: 24, color: theme.brightness == Brightness.light ? Colors.black45 : Colors.white54),
+          prefixIcon: Icon(Icons.search_rounded, size: 24, color: theme.brightness == Brightness.light ? Colors.black45 : Colors.white.withAlpha(128)),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(vertical: 24),
         ),
@@ -340,7 +340,7 @@ class CarCard extends StatelessWidget {
                     colors: [
                       Colors.transparent,
                       Colors.black.withAlpha(50),
-                      Colors.black.withAlpha(240),
+                      Colors.black.withAlpha(230),
                     ],
                   ),
                 ),
@@ -352,7 +352,7 @@ class CarCard extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.black.withAlpha(120),
+                  color: Colors.black.withAlpha(128),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Row(
@@ -395,7 +395,7 @@ class CarCard extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('PER DAY', style: TextStyle(color: Colors.white54, fontSize: 10, fontWeight: FontWeight.bold)),
+                          const Text('PER DAY', style: TextStyle(color: Colors.white.withAlpha(128), fontSize: 10, fontWeight: FontWeight.bold)),
                           Text(
                             '\$${car.pricePerDay}',
                             style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w900),
@@ -438,7 +438,7 @@ class CarListTile extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 24),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: theme.brightness == Brightness.light ? Colors.white : Colors.white10,
+          color: theme.brightness == Brightness.light ? Colors.white : Colors.white.withAlpha(25),
           borderRadius: BorderRadius.circular(32),
           boxShadow: theme.brightness == Brightness.light ? [
             BoxShadow(
@@ -487,13 +487,13 @@ class CarListTile extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: theme.brightness == Brightness.light ? const Color(0xFFF8F8F8) : Colors.black26,
+                      color: theme.brightness == Brightness.light ? const Color(0xFFF8F8F8) : Colors.black.withAlpha(50),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
                       car.category,
                       style: TextStyle(
-                        color: theme.brightness == Brightness.light ? Colors.black45 : Colors.white54, 
+                        color: theme.brightness == Brightness.light ? Colors.black45 : Colors.white.withAlpha(128), 
                         fontSize: 9, 
                         fontWeight: FontWeight.w800
                       ),
@@ -517,7 +517,7 @@ class CarListTile extends StatelessWidget {
                   'Daily', 
                   style: TextStyle(
                     fontSize: 11, 
-                    color: theme.brightness == Brightness.light ? Colors.black26 : Colors.white24, 
+                    color: theme.brightness == Brightness.light ? Colors.black26 : Colors.white.withAlpha(50),
                     fontWeight: FontWeight.bold
                   )
                 ),
